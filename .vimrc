@@ -1,6 +1,20 @@
 " .vimrc for jadengis
 " Configures vim for maximum power
 
+" Set vim path for file searching
+set path=.,,**
+
+" Set filetype plugin on to allow for file specific modes
+filetype plugin on
+
+" make features
+set makeprg=make
+map <leader>m :make<CR>
+
+" Turn on Autocmd for quickfix windows
+autocmd QuickFixCmdPost [^l]* nested cwindow
+autocmd QuickFixCmdPost    l* nested lwindow
+
 " Colour
 colorscheme delek " Leave off until I understand how to add colorschemes
 syntax on
@@ -10,6 +24,9 @@ set expandtab " Tabs are spaces
 set tabstop=4 " Input tab length
 set softtabstop=4 " Edit time tab length
 set shiftwidth=4 " indenting is 4 spaces
+
+" Backspace
+set backspace=2
 
 " UI config
 filetype indent on " Loads langauge specific indentation
@@ -38,4 +55,3 @@ set foldmethod=indent " fold based on indent level
 " move vertically by visual line
 nnoremap j gj
 nnoremap k gk
-
