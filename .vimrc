@@ -4,8 +4,8 @@
 " Set vim path for file searching
 set path=.,,**
 
-" Set filetype plugin on to allow for file specific modes
-filetype plugin on
+" Rule for find my ctags tags file
+set tags+=tags;~
 
 " make features
 set makeprg=make
@@ -15,15 +15,22 @@ map <leader>m :make<CR>
 autocmd QuickFixCmdPost [^l]* nested cwindow
 autocmd QuickFixCmdPost    l* nested lwindow
 
+" Open files to last position
+if has("autocmd")
+    au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+endif
+
 " Colour
 colorscheme delek " Leave off until I understand how to add colorschemes
 syntax on
 
+let c_no_curly_error=1
+
 " Spaces & Tabs
 set expandtab " Tabs are spaces
-set tabstop=4 " Input tab length
-set softtabstop=4 " Edit time tab length
-set shiftwidth=4 " indenting is 4 spaces
+set tabstop=2 " Input tab length
+set softtabstop=2 " Edit time tab length
+set shiftwidth=2 " indenting is 4 spaces
 
 " Backspace
 set backspace=2
@@ -33,7 +40,7 @@ filetype indent on " Loads langauge specific indentation
 set number " Show line numbers
 set ruler "Show row and column numbers
 set showcmd " Displays last command
-set cursorline " Highlights current line
+"set cursorline " Highlights current line
 set wildmenu " Graphical menu for autocomplete
 set lazyredraw " Redraws only when necessary
 set showmatch " Highlights matching parantheses
@@ -55,3 +62,33 @@ set foldmethod=indent " fold based on indent level
 " move vertically by visual line
 nnoremap j gj
 nnoremap k gk
+
+" Setup for Vundle
+set nocompatible
+filetype off
+
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+
+" alternatively, pass a path where Vundle should install plugins
+"call vundle#begin('~/some/path/here')
+
+" let Vundle manage Vundle, required
+Plugin 'gmarik/Vundle.vim'
+
+" Add all your plugins here (note older versions of Vundle used Bundle instead of Plugin)
+Plugin 'Valloric/YouCompleteMe'
+
+" All of your Plugins must be added before the following line
+call vundle#end()
+
+" Set filetype plugin on to allow for file specific modes
+filetype plugin indent on
+
+" YouCompleteMe remaps
+nnoremap <F5> :YcmForceCompileAndDiagnostics<CR>
+nnoremap <leader>jg :YcmCompleter GoTo<CR> 
+nnoremap <leader>jr :YcmCompleter GoToReferences<CR> 
+nnoremap <leader>jt :YcmCompleter GetType<CR> 
+nnoremap <leader>jp :YcmCompleter GetParent<CR> 
