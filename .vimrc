@@ -1,4 +1,4 @@
-" .vimrc for jadengis
+".vimrc for jadengis
 " Configures vim for maximum power
 
 " Set vim path for file searching
@@ -27,7 +27,7 @@ syntax on
 let c_no_curly_error=1
 
 " Spaces & Tabs
-set expandtab " Tabs are spaces
+"set expandtab " Tabs are spaces
 set tabstop=2 " Input tab length
 set softtabstop=2 " Edit time tab length
 set shiftwidth=2 " indenting is 4 spaces
@@ -75,10 +75,29 @@ call vundle#begin()
 "call vundle#begin('~/some/path/here')
 
 " let Vundle manage Vundle, required
-Plugin 'gmarik/Vundle.vim'
+Plugin 'VundleVim/Vundle.vim'
 
 " Add all your plugins here (note older versions of Vundle used Bundle instead of Plugin)
 Plugin 'Valloric/YouCompleteMe'
+
+" Plugin for golang
+Plugin 'fatih/vim-go'
+
+" Plugin for delve
+Plugin 'sebdah/vim-delve'
+
+" Deps for vim-delve
+Plugin 'Shougo/vimshell.vim'
+Plugin 'Shougo/vimproc.vim'
+
+" C++14 syntax highlighting
+Plugin 'octol/vim-cpp-enhanced-highlight' 
+
+" Solidity syntax highlighting 
+Plugin 'tomlion/vim-solidity'
+
+" Directory tree plugin
+Plugin 'scrooloose/nerdtree'
 
 " All of your Plugins must be added before the following line
 call vundle#end()
@@ -92,3 +111,9 @@ nnoremap <leader>jg :YcmCompleter GoTo<CR>
 nnoremap <leader>jr :YcmCompleter GoToReferences<CR> 
 nnoremap <leader>jt :YcmCompleter GetType<CR> 
 nnoremap <leader>jp :YcmCompleter GetParent<CR> 
+
+" Settings for nerdtree to pop
+autocmd VimEnter * NERDTree
+" autocmd StdinReadPre * let s:std_in=1
+" autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
