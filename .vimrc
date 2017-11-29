@@ -63,6 +63,12 @@ set foldmethod=indent " fold based on indent level
 nnoremap j gj
 nnoremap k gk
 
+" change windows more easily
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+
 " Setup for Vundle
 set nocompatible
 filetype off
@@ -83,12 +89,12 @@ Plugin 'Valloric/YouCompleteMe'
 " Plugin for golang
 Plugin 'fatih/vim-go'
 
-" Plugin for delve
-Plugin 'sebdah/vim-delve'
-
 " Deps for vim-delve
 Plugin 'Shougo/vimshell.vim'
 Plugin 'Shougo/vimproc.vim'
+
+" Plugin for delve
+Plugin 'sebdah/vim-delve'
 
 " C++14 syntax highlighting
 Plugin 'octol/vim-cpp-enhanced-highlight' 
@@ -114,6 +120,8 @@ nnoremap <leader>jp :YcmCompleter GetParent<CR>
 
 " Settings for nerdtree to pop
 autocmd VimEnter * NERDTree
+" Jump to the main window.
+autocmd VimEnter * wincmd p
 " autocmd StdinReadPre * let s:std_in=1
 " autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
