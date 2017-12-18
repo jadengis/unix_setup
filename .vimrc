@@ -20,10 +20,6 @@ if has("autocmd")
     au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 endif
 
-" Colour
-colorscheme delek " Leave off until I understand how to add colorschemes
-syntax on
-
 let c_no_curly_error=1
 
 " Spaces & Tabs
@@ -89,12 +85,8 @@ Plugin 'Valloric/YouCompleteMe'
 " Plugin for golang
 Plugin 'fatih/vim-go'
 
-" Deps for vim-delve
-Plugin 'Shougo/vimshell.vim'
-Plugin 'Shougo/vimproc.vim'
-
-" Plugin for delve
-Plugin 'sebdah/vim-delve'
+" Git plugin
+Plugin 'tpope/vim-fugitive'
 
 " C++14 syntax highlighting
 Plugin 'octol/vim-cpp-enhanced-highlight' 
@@ -102,11 +94,30 @@ Plugin 'octol/vim-cpp-enhanced-highlight'
 " Solidity syntax highlighting 
 Plugin 'tomlion/vim-solidity'
 
+" Protobuf highlighting
+Plugin 'uarun/vim-protobuf'
+
 " Directory tree plugin
 Plugin 'scrooloose/nerdtree'
 
+" Vim colour scheme
+Plugin 'jacoborus/tender.vim'
+
+" Vim airline
+Plugin 'vim-airline/vim-airline'
+
 " All of your Plugins must be added before the following line
 call vundle#end()
+
+" Enable gui colours
+" if (has("termguicolors"))
+" 	set termguicolors
+" endif
+
+" Theming for vim
+syntax enable
+colorscheme tender
+let g:airline_theme = 'tender'
 
 " Set filetype plugin on to allow for file specific modes
 filetype plugin indent on
@@ -118,6 +129,7 @@ nnoremap <leader>jr :YcmCompleter GoToReferences<CR>
 nnoremap <leader>jt :YcmCompleter GetType<CR> 
 nnoremap <leader>jp :YcmCompleter GetParent<CR> 
 
+" NERDTree customizations
 " Settings for nerdtree to pop
 autocmd VimEnter * NERDTree
 " Jump to the main window.
@@ -125,3 +137,11 @@ autocmd VimEnter * wincmd p
 " autocmd StdinReadPre * let s:std_in=1
 " autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+
+" Go Highlight
+" Highlight
+let g:go_highlight_functions = 1  
+let g:go_highlight_methods = 1  
+let g:go_highlight_structs = 1  
+let g:go_highlight_operators = 1  
+let g:go_highlight_build_constraints = 1  
