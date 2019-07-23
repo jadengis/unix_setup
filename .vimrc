@@ -22,11 +22,15 @@ endif
 
 let c_no_curly_error=1
 
+" Not vi compatible
+set nocompatible
+
 " Spaces & Tabs
 "set expandtab " Tabs are spaces
 set tabstop=2 " Input tab length
 set softtabstop=2 " Edit time tab length
 set shiftwidth=2 " indenting is 4 spaces
+set listchars=tab:>\ ,trail:-,extends:>,precedes:<,nbsp:+
 
 " Backspace
 set backspace=2
@@ -38,6 +42,7 @@ set ruler "Show row and column numbers
 set showcmd " Displays last command
 "set cursorline " Highlights current line
 set wildmenu " Graphical menu for autocomplete
+set wildmode=full
 set lazyredraw " Redraws only when necessary
 set showmatch " Highlights matching parantheses
 
@@ -80,38 +85,44 @@ call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 
 " Add all your plugins here (note older versions of Vundle used Bundle instead of Plugin)
+"
+" Function
 Plugin 'Valloric/YouCompleteMe'
-
-" Plugin for golang
-Plugin 'fatih/vim-go'
-
-" Git plugin
+Plugin 'scrooloose/nerdtree'
+Plugin 'ctrlpvim/ctrlp.vim'
+Plugin 'vim-syntastic/syntastic'
 Plugin 'tpope/vim-fugitive'
 
-" C++14 syntax highlighting
-Plugin 'octol/vim-cpp-enhanced-highlight' 
-
-" Solidity syntax highlighting 
-Plugin 'tomlion/vim-solidity'
-
-" Protobuf highlighting
-Plugin 'uarun/vim-protobuf'
-
-" Directory tree plugin
-Plugin 'scrooloose/nerdtree'
-
-" Vim colour scheme
+" Appearance
 Plugin 'jacoborus/tender.vim'
-
-" Vim airline
 Plugin 'vim-airline/vim-airline'
+
+" Language specific
+Plugin 'fatih/vim-go'
+Plugin 'dart-lang/dart-vim-plugin'
+Plugin 'slashmili/alchemist.vim'
+Plugin 'vim-ruby/vim-ruby'
+Plugin 'tpope/vim-rails'
+
+" Syntax highlighters
+Plugin 'octol/vim-cpp-enhanced-highlight' 
+Plugin 'tomlion/vim-solidity'
+Plugin 'pangloss/vim-javascript'
+Plugin 'mxw/vim-jsx'
+Plugin 'posva/vim-vue'
+Plugin 'uarun/vim-protobuf'
+Plugin 'jparise/vim-graphql'
+Plugin 'elixir-editors/vim-elixir'
+
+" Code formatting
+Plugin 'prettier/vim-prettier'
 
 " All of your Plugins must be added before the following line
 call vundle#end()
 
 " Enable gui colours
 " if (has("termguicolors"))
-" 	set termguicolors
+" set termguicolors
 " endif
 
 " Theming for vim
@@ -122,26 +133,50 @@ let g:airline_theme = 'tender'
 " Set filetype plugin on to allow for file specific modes
 filetype plugin indent on
 
-" YouCompleteMe remaps
-nnoremap <F5> :YcmForceCompileAndDiagnostics<CR>
-nnoremap <leader>jg :YcmCompleter GoTo<CR> 
-nnoremap <leader>jr :YcmCompleter GoToReferences<CR> 
-nnoremap <leader>jt :YcmCompleter GetType<CR> 
-nnoremap <leader>jp :YcmCompleter GetParent<CR> 
-
 " NERDTree customizations
 " Settings for nerdtree to pop
-autocmd VimEnter * NERDTree
+"autocmd VimEnter * NERDTree
+
 " Jump to the main window.
 autocmd VimEnter * wincmd p
 " autocmd StdinReadPre * let s:std_in=1
 " autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
-" Go Highlight
-" Highlight
+" Go setup
 let g:go_highlight_functions = 1  
 let g:go_highlight_methods = 1  
 let g:go_highlight_structs = 1  
 let g:go_highlight_operators = 1  
 let g:go_highlight_build_constraints = 1  
+
+"JavaScript Highlighter setup
+let g:javascript_plugin_jsdoc = 1
+let g:javascript_plugin_ngdoc = 1
+
+" Dart plugin setup
+let dart_style_guide = 2
+let dart_format_on_save = 1
+
+" Prettier setup
+let g:prettier#autoformat = 0
+autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue PrettierAsync
+
+" CtrlP setup
+let g:ctrlp_working_path_mode = 'ra'
+
+" Syntastic setup
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+
+let g:syntastic_enable_elixir_checker = 1
+let g:syntastic_elixir_checkers = ['elixir']
+
+" FileType customizations
+autocmd FileType proto setlocal tabstop=4 shiftwidth=4 softtabstop=4
